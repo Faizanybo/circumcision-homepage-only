@@ -1,0 +1,1880 @@
+/* =========================================================================
+   Reusable page sections (homepage and later inner pages)
+   Copied from the prototype public/css/site.css. Do not invent replacements.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- hero -- */
+.hero { position: relative; background: var(--ink); overflow: hidden; }
+.hero-media { position: absolute; inset: 0; }
+.hero-media img,
+.hero-media video { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
+
+.hero-poster { position: absolute; inset: 0; display: block; }
+.hero-poster img { width: 100%; height: 100%; }
+.hero-video { position: absolute; inset: 0; opacity: 0; transition: opacity .7s var(--ease); }
+.hero-video.is-playing { opacity: 1; }
+.hero-media::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, rgba(12, 20, 32, .88) 0%, rgba(12, 20, 32, .62) 38%, rgba(12, 20, 32, .34) 72%, rgba(12, 20, 32, .42) 100%),
+    linear-gradient(to right, rgba(12, 20, 32, .72) 0%, rgba(12, 20, 32, .42) 42%, rgba(12, 20, 32, .38) 100%);
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: var(--maxw); margin: 0 auto;
+  padding: clamp(72px, 10vw, 128px) var(--gap) clamp(72px, 8vw, 120px);
+  color: #fff;
+  min-width: 0;
+}
+.hero .eyebrow {
+  color: rgba(255, 255, 255, .88);
+  display: inline-block;
+  margin-bottom: 14px;
+}
+/* Wider measure so the title uses fewer lines beside the aside copy. */
+.hero h1 { color: #fff; max-width: 22ch; overflow-wrap: normal; }
+.hero-sub {
+  margin-top: 20px; max-width: min(36ch, 100%); font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.55; color: rgba(255, 255, 255, .88);
+}
+.hero-actions { margin-top: 28px; }
+.hero-layout {
+  display: grid;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  min-width: 0;
+}
+.hero--split .hero-layout {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+}
+/* Single-column hero (no aside): clearer hierarchy and readable CTAs over video. */
+.hero:not(.hero--split) .hero-layout {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: min(40rem, 100%);
+}
+.hero:not(.hero--split) h1 {
+  max-width: min(18ch, 100%);
+  text-wrap: balance;
+}
+.hero:not(.hero--split) .hero-sub {
+  margin-top: 18px;
+  max-width: min(42ch, 100%);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .92);
+}
+.hero:not(.hero--split) .hero-actions {
+  margin-top: 32px;
+  gap: 14px;
+}
+.hero:not(.hero--split) .hero-facts {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+.hero-main { min-width: 0; }
+.hero-aside.hero-copy {
+  margin-top: 0;
+  max-width: none;
+  font-size: clamp(14px, 1.05vw, 15.5px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .9);
+}
+.hero-aside.hero-copy p { margin: 0; overflow-wrap: anywhere; }
+.hero-aside.hero-copy p + p { margin-top: 12px; }
+.hero-aside.hero-copy ul,
+.hero-aside.hero-copy .wp-block-list {
+  margin: 14px 0 0;
+  padding-left: 1.15em;
+  display: grid;
+  gap: 6px;
+}
+.hero-aside.hero-copy li {
+  margin: 0;
+  padding: 0;
+}
+.hero-facts {
+  margin-top: clamp(28px, 3.5vw, 40px); padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .24);
+  display: flex; flex-wrap: wrap; gap: 12px 40px; list-style: none;
+  min-width: 0;
+}
+.hero-facts li { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; color: rgba(255, 255, 255, .86); flex: 1 1 16rem; min-width: 0; max-width: 100%; }
+.hero-facts li span { min-width: 0; overflow-wrap: anywhere; }
+.hero-facts b { font-weight: 600; color: #fff; }
+.hero-facts svg { width: 16px; height: 16px; flex: 0 0 auto; opacity: .85; margin-top: 2px; }
+
+@media (max-width: 980px) {
+  .hero--split .hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero h1 { max-width: 18ch; }
+  .hero:not(.hero--split) .hero-layout { max-width: 100%; }
+  .hero:not(.hero--split) .hero-sub { max-width: 100%; }
+}
+
+/* --------------------------------------------------------- group cards -- */
+.groups {
+  max-width: var(--chrome-max);
+  width: 100%;
+  margin: clamp(-96px, -6vw, -52px) auto 0;
+  padding-inline: var(--gap);
+  position: relative;
+  z-index: 3;
+  box-sizing: border-box;
+}
+
+.card p { font-size: 16px; line-height: 1.72; color: var(--muted); }
+.card h3 { margin-bottom: 10px; }
+
+.stat .n { display: block; font-family: var(--display); font-weight: 300; font-size: clamp(40px, 4vw, 54px); line-height: 1; color: var(--blue-deep); }
+.stat .l { display: block; margin-top: 12px; font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+.figure { position: relative; overflow: hidden; border-radius: 6px; background: var(--paper-2); margin: 0; }
+.figure img { width: 100%; height: 100%; object-fit: cover; }
+.figure figcaption { margin-top: 12px; font-size: 14px; color: var(--muted-2); }
+.ratio-4-3 { aspect-ratio: 4 / 3; }
+.ratio-3-4 { aspect-ratio: 3 / 4; }
+.ratio-5-4 { aspect-ratio: 5 / 4; }
+
+/* ------------------------------------------------------------- reviews -- */
+.quote {
+  background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  padding: clamp(24px, 2.4vw, 34px);
+  display: flex; flex-direction: column; gap: 16px; margin: 0;
+  min-width: 0;
+}
+.quote blockquote {
+  margin: 0; font-family: var(--display); font-weight: 300; font-style: italic;
+  font-size: clamp(19px, 1.6vw, 22px); line-height: 1.46; color: var(--ink-2);
+  overflow-wrap: anywhere; word-break: break-word;
+}
+.quote .meta { margin-top: auto; font-size: 14px; color: var(--muted-2); }
+.stars { color: var(--blue); font-size: 14px; letter-spacing: .18em; }
+.quote--sample { border-style: dashed; background: var(--paper); }
+.quote-sample-badge {
+  display: inline-block; align-self: flex-start;
+  font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--amber);
+  padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card);
+}
+
+.testimonials-video-cta {
+  margin-top: clamp(28px, 3.2vw, 44px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+.testimonials-video-cta .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-inline: auto;
+  min-width: min(100%, 220px);
+}
+.testimonials-video-cta .muted {
+  margin-inline: auto;
+  text-align: center;
+}
+.testimonials-cta-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+.testimonials-cta-center .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 44px;
+  margin-inline: auto;
+  min-width: min(100%, 220px);
+}
+
+/* Written testimonials: centre incomplete last rows on desktop / tablet. */
+@media (min-width: 901px) {
+  /* One leftover in a 3-col row → middle column. */
+  .cil-quotes-grid.g-3 > .quote:last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+
+  /* Two leftovers → 6-col track; the last pair together spans the full row width. */
+  .cil-quotes-grid.g-3:has(> .quote:last-child:nth-child(3n + 2)) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .cil-quotes-grid.g-3:has(> .quote:last-child:nth-child(3n + 2)) > .quote {
+    grid-column: span 2;
+  }
+  .cil-quotes-grid.g-3:has(> .quote:last-child:nth-child(3n + 2)) > .quote:nth-last-child(-n + 2) {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 681px) {
+  /* One leftover in a 2-col row → centred. */
+  .cil-quotes-grid.g-3 > .quote:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: calc((100% - clamp(20px, 2.6vw, 40px)) / 2);
+    width: 100%;
+    justify-self: center;
+  }
+}
+
+.cil-pagination {
+  margin-top: clamp(28px, 3.5vw, 44px);
+  padding-top: clamp(20px, 2.4vw, 28px);
+  border-top: 1px solid var(--line);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.cil-pagination__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+.cil-pagination__item {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; padding: 0 14px;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card); color: var(--ink); text-decoration: none;
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  transition: border-color .25s var(--ease), color .25s var(--ease), background .25s var(--ease);
+}
+a.cil-pagination__item:hover {
+  border-color: var(--blue); color: var(--blue-deep); background: var(--blue-soft);
+}
+.cil-pagination__item.is-current {
+  border-color: var(--blue-deep); background: var(--blue-deep); color: #fff;
+}
+.cil-pagination__meta { margin: 0; font-size: 14px; text-align: center; }
+
+.cil-video-empty {
+  margin-top: clamp(20px, 2.4vw, 28px);
+  padding: clamp(24px, 3vw, 36px);
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  max-width: 62ch;
+}
+.cil-video-section--flush {
+  padding-block: clamp(12px, 1.8vw, 28px) clamp(36px, 4vw, 64px);
+}
+.cil-video-card {
+  min-width: 0;
+  margin: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: none;
+}
+.cil-video-card__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #101820;
+  overflow: hidden;
+}
+.cil-video-card__player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #101820;
+  border: 0;
+}
+.cil-video-card__caption {
+  padding: 14px 18px 16px;
+  margin: 0;
+}
+
+/* ---------------------------------------- aftercare video list (rows) -- */
+.cil-video-list {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(24px, 3vw, 36px);
+}
+.cil-video-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(18px, 3vw, 44px);
+  align-items: center;
+  padding: clamp(18px, 2.2vw, 28px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.cil-video-row__title {
+  margin: 0;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.35;
+}
+.cil-video-row__note {
+  margin: 10px 0 0;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.cil-video-row__note strong { font-weight: 700; }
+.cil-video-row__note a { color: var(--blue-deep); }
+.cil-video-row__meta { margin: 12px 0 0; }
+.cil-video-facade {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #101820;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cil-video-facade__link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: #fff;
+}
+.cil-video-facade__link:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.cil-video-facade__poster {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.cil-video-facade__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background: rgba(16, 24, 32, 0.72);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  transition: transform .25s var(--ease), background .25s var(--ease);
+}
+.cil-video-facade__play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -11px 0 0 -6px;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent #fff;
+}
+.cil-video-facade__link:hover .cil-video-facade__play,
+.cil-video-facade__link:focus-visible .cil-video-facade__play {
+  background: var(--blue-deep);
+  transform: scale(1.06);
+}
+.cil-video-facade__time {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: rgba(16, 24, 32, 0.78);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cil-video-facade__player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #101820;
+}
+.cil-video-facade.is-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cil-video-spin .8s linear infinite;
+  pointer-events: none;
+}
+@keyframes cil-video-spin { to { transform: rotate(360deg); } }
+.cil-video-facade__error {
+  position: absolute;
+  inset: auto 0 0;
+  margin: 0;
+  padding: 10px 14px;
+  background: #fff4f2;
+  color: #7a1f12;
+  font-size: 14px;
+}
+/* Arabic / Farsi paragraphs and video titles on the translated pages. */
+.body-text p:has(> span[dir="rtl"]:only-child),
+.cil-video-row__note:has(> span[dir="rtl"]:only-child) {
+  direction: rtl;
+  text-align: right;
+}
+.cil-video-facade.is-unavailable { display: flex; align-items: flex-end; }
+.cil-video-facade.is-unavailable .cil-video-facade__poster { position: absolute; inset: 0; opacity: .35; }
+.cil-video-facade.is-unavailable .cil-video-facade__error { position: relative; width: 100%; }
+.cil-aftercare-checklist {
+  max-width: 760px;
+  margin: clamp(24px, 3vw, 36px) auto 0;
+}
+.cil-aftercare-checklist img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.cil-aftercare-checklist figcaption {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .cil-video-row { grid-template-columns: minmax(0, 1fr); }
+  .cil-video-row__media { order: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cil-video-facade.is-loading::after { animation: none; }
+  .cil-video-facade__play { transition: none; }
+}
+
+/* ------------------------------------- testimonial video cards (portrait) -- */
+.cil-video-cards {
+  margin-top: clamp(24px, 3vw, 36px);
+}
+.cil-video-tile {
+  min-width: 0;
+  margin: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cil-video-facade--portrait {
+  aspect-ratio: 9 / 16;
+  border-radius: 0;
+}
+.cil-video-facade--portrait .cil-video-facade__poster { object-fit: cover; }
+/* The tile clips overflow, so draw the keyboard focus ring inside the poster. */
+.cil-video-tile .cil-video-facade__link:focus-visible { outline-offset: -4px; }
+.cil-video-tile__caption {
+  padding: 12px 16px 14px;
+  margin: 0;
+}
+@media (max-width: 680px) {
+  .cil-video-cards.g-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .cil-video-cards .cil-video-facade__play { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
+}
+
+/* Dedicated video testimonials page: tighten intro → grid spacing only. */
+.page-video-testimonials .page-head {
+  padding-block: clamp(28px, 3.2vw, 52px) clamp(12px, 1.6vw, 24px);
+}
+.page-video-testimonials .page-head .lede {
+  margin-top: 16px;
+  max-width: 42rem;
+}
+
+.rating-badge {
+  display: inline-flex; align-items: center; gap: 16px;
+  padding: 16px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  text-decoration: none; color: inherit; transition: border-color .25s var(--ease);
+}
+.rating-badge:hover { border-color: var(--blue); }
+.rating-badge .score { font-family: var(--display); font-size: 34px; font-weight: 300; line-height: 1; color: var(--blue-deep); }
+.rating-badge .txt { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+.rating-badges,
+.wp-block-group.body-text:has(> a.rating-badge:nth-of-type(2)) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 40px);
+  width: 100%;
+  align-items: center;
+}
+.rating-badges .rating-badge,
+.wp-block-group.body-text > a.rating-badge,
+.wp-block-group.body-text.is-layout-flow > a.rating-badge {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 76px;
+  min-width: 0;
+  margin-block: 0;
+  box-sizing: border-box;
+}
+.wp-block-group.body-text > a.rating-badge + a.rating-badge {
+  margin-block-start: 0;
+}
+.rating-badges .rating-badge .score,
+.wp-block-group.body-text > a.rating-badge .score {
+  font-size: 22px;
+  line-height: 1;
+}
+
+@media (max-width: 680px) {
+  .rating-badges,
+  .wp-block-group.body-text:has(> a.rating-badge:nth-of-type(2)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ----------------------------------------------------------------- faq -- */
+.faq { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 22px;
+  padding: 22px 0; min-height: 44px;
+  font-family: var(--display); font-size: clamp(19px, 1.7vw, 23px); font-weight: 400; color: var(--ink);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: 0 0 auto; width: 10px; height: 10px;
+  border-right: 1.5px solid var(--blue); border-bottom: 1.5px solid var(--blue);
+  transform: rotate(45deg) translateY(-3px); transition: transform .28s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
+.faq .answer { padding: 0 0 24px; max-width: 72ch; }
+
+/* ---------------------------------------------------------------- form -- */
+.form-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.full { grid-column: 1 / -1; }
+.field label { font-size: 15px; font-weight: 600; color: var(--ink); }
+.field input, .field textarea, .field select {
+  width: 100%; min-height: 52px; padding: 13px 15px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--card);
+  font-family: var(--sans); font-size: 16px; color: var(--ink);
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.field textarea { min-height: 124px; resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--blue); outline: none; box-shadow: 0 0 0 3px var(--blue-soft);
+}
+.consent {
+  grid-column: 1 / -1; display: flex; align-items: flex-start; gap: 13px;
+  padding: 6px 0 2px; font-size: 15px; line-height: 1.62; color: var(--muted);
+}
+.consent input { width: 20px; height: 20px; margin: 3px 0 0; flex: 0 0 auto; accent-color: var(--blue); }
+.form-note { grid-column: 1 / -1; font-size: 15px; color: var(--muted); }
+.form-note p + p { margin-top: 10px; }
+.form-status { grid-column: 1 / -1; font-size: 15px; }
+.form-status[data-state="ok"] { color: var(--blue-deep); }
+.form-status[data-state="err"] { color: #a0432a; }
+
+/* ------------------------------------------------------------ callout -- */
+.callout {
+  background: var(--blue-soft); border-radius: 6px;
+  border-left: 3px solid var(--blue);
+  padding: clamp(22px, 2.4vw, 32px);
+  margin-block: clamp(24px, 2.6vw, 34px);
+}
+.callout:first-child { margin-top: 0; }
+.callout:last-child { margin-bottom: 0; }
+.callout h3 { margin-bottom: 10px; }
+.callout p { font-size: 16px; line-height: 1.72; color: var(--muted); }
+.callout.urgent { background: #fdf1e8; border-left-color: var(--clay); }
+
+.cta-band { background: var(--blue-soft); }
+
+/* -------------------------------------------------------- reassurance -- */
+.steps { list-style: none; counter-reset: s; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.steps li { counter-increment: s; background: var(--card); padding: clamp(20px, 2.2vw, 30px); }
+.steps li::before {
+  content: counter(s); display: grid; place-items: center;
+  width: 30px; height: 30px; margin-bottom: 14px; border-radius: 50%;
+  background: var(--blue-soft); color: var(--blue-deep);
+  font-size: 14px; font-weight: 600;
+}
+.steps h3 { font-family: var(--sans); font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+.steps p { font-size: 15.5px; line-height: 1.68; color: var(--muted); }
+
+/* ----------------------------------------------------------- spec list -- */
+.spec { list-style: none; border-top: 1px solid var(--line); margin: 0; }
+.spec li { display: flex; justify-content: space-between; align-items: baseline; gap: 22px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+.spec .k, .spec dt { font-size: 15px; color: var(--muted); }
+.spec .v, .spec dd { margin: 0; font-size: 16px; font-weight: 600; color: var(--ink); text-align: right; }
+
+/* -------------------------------------------------------------- prices -- */
+.price-table { border-top: 1px solid var(--line); }
+.price-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 18px 30px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line);
+}
+.price-row h3 { font-family: var(--sans); font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.price-row p { font-size: 15px; color: var(--muted); max-width: 56ch; }
+.price-row .amount { font-family: var(--display); font-size: clamp(24px, 2.3vw, 32px); font-weight: 400; color: var(--ink-2); white-space: nowrap; }
+.price-row .btn { min-height: 42px; padding: 9px 18px; font-size: 14px; }
+/* Price figure inside cards and body text (prices page), styled like .price-row .amount. */
+.cil-price-amount,
+.body-text p.cil-price-amount,
+.cil-info-card .body-text p.cil-price-amount {
+  font-family: var(--display);
+  font-size: clamp(28px, 2.6vw, 36px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink-2);
+}
+.cil-info-card .body-text p.cil-price-amount { margin: 0 0 4px; }
+
+.reviewed-by { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14.5px; color: var(--muted-2); }
+.reviewed-by a { color: var(--muted); }
+
+.cil-cliniko-bookings {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 22px;
+}
+.cil-cliniko-bookings iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 640px;
+  height: 1000px;
+  border: 0;
+  background: var(--paper-2);
+  pointer-events: auto;
+}
+.cil-cliniko-bookings-editor {
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: var(--paper-2);
+  padding: 22px 24px;
+}
+.cil-cliniko-bookings-editor .caps {
+  color: var(--blue);
+}
+
+.card-link { text-decoration: none; color: inherit; display: block; transition: border-color .25s var(--ease), transform .25s var(--ease); }
+.card-link:hover { border-color: var(--blue); transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { display: none; }
+}
+
+@media (max-width: 900px) {
+  .hero-media img { object-position: 30% 46%; }
+}
+
+@media (max-width: 680px) {
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-facts { gap: 10px 26px; }
+  .price-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .price-row .btn { grid-column: 1 / -1; justify-self: start; }
+  .cil-cliniko-bookings iframe { min-height: 720px; }
+}
+
+/*
+ * Urgent A&E note emitted beside a split callback card: own full-width row
+ * under the image/form, matching the section/wrap content width.
+ * Age-card band (.card-groups-2) is unchanged.
+ */
+.split > .callout-urgent-band,
+.split > :has(> .callout.urgent) {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: none;
+  justify-self: stretch;
+  margin-top: 8px;
+}
+
+.split > .card {
+  min-width: 0;
+}
+
+/* Two age cards: centered band — do not change card internals. */
+.grid.card-groups-2 {
+  max-width: 820px;
+  width: 100%;
+  margin-inline: auto;
+}
+.grid.card-groups-1 {
+  max-width: 400px;
+  width: 100%;
+  margin-inline: auto;
+}
+/* Legacy markup still on g-3 with only two cards. */
+.grid.g-3:has(> .card-group:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 820px;
+  width: 100%;
+  margin-inline: auto;
+}
+@media (max-width: 680px) {
+  .grid.g-3:has(> .card-group:nth-child(2):last-child) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+  }
+}
+
+/* Book/Call buttons nested inside .body-text inherit the body-link colour; restore white label. */
+.body-text a.btn:not(.btn-ghost),
+.body-text a.btn:not(.btn-ghost):hover,
+.body-text a.btn:not(.btn-ghost):focus,
+.body-text .wp-block-button:not(.is-style-outline) .wp-block-button__link,
+.body-text .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover,
+.body-text .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus {
+  color: #fff;
+}
+
+/* Consultation buttons: 2-column top with centered button below */
+.cil-consultation-buttons-grid {
+  display: inline-grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+}
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(1) {
+  grid-column: 1;
+}
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(2) {
+  grid-column: 2;
+}
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(1) .wp-block-button__link,
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(2) .wp-block-button__link {
+  width: 100%;
+  white-space: nowrap;
+  text-align: center;
+}
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(3) {
+  grid-column: 1 / span 2;
+  justify-self: center;
+}
+.cil-consultation-buttons-grid > .wp-block-button:nth-child(3) .wp-block-button__link {
+  white-space: nowrap;
+  text-align: center;
+}
+@media (max-width: 1080px) and (min-width: 901px) {
+  .cil-consultation-buttons-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .cil-consultation-buttons-grid > .wp-block-button {
+    width: 100% !important;
+  }
+  .cil-consultation-buttons-grid .wp-block-button__link {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+@media (max-width: 580px) {
+  .cil-consultation-buttons-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .cil-consultation-buttons-grid > .wp-block-button {
+    width: 100% !important;
+  }
+  .cil-consultation-buttons-grid .wp-block-button__link {
+    width: 100% !important;
+    text-align: center;
+  }
+}
+
+/* Three age cards on tablet 2-col wrap: center the leftover third card. */
+@media (max-width: 900px) and (min-width: 681px) {
+  .grid.g-3:has(> .card-group:nth-child(3):last-child) > .card-group:last-child {
+    grid-column: 1 / -1;
+    max-width: 336px;
+    width: 100%;
+    justify-self: center;
+  }
+}
+
+/* Centre incomplete last row cards across 2-col and 3-col card grids */
+@media (min-width: 901px) {
+  /* One leftover in a 3-col card grid -> centre in column 2 */
+  .grid.g-3 > .card:last-child:nth-child(3n + 1):not(:first-child),
+  .grid.g-3 > .card-group:last-child:nth-child(3n + 1):not(:first-child),
+  .grid.g-3 > .cil-info-card:last-child:nth-child(3n + 1):not(:first-child),
+  .grid.g-3.cil-info-cards-grid > .card:last-child:nth-child(3n + 1):not(:first-child) {
+    grid-column: 2;
+  }
+
+  /* Two leftovers in a 3-col card grid (e.g. 5 cards) -> 6-col track; the last pair together spans the full row width. */
+  .grid.g-3:has(> .card:last-child:nth-child(3n + 2):not(:nth-child(2))),
+  .grid.g-3:has(> .card-group:last-child:nth-child(3n + 2):not(:nth-child(2))),
+  .grid.g-3:has(> .cil-info-card:last-child:nth-child(3n + 2):not(:nth-child(2))),
+  .grid.g-3.cil-info-cards-grid:has(> *:last-child:nth-child(3n + 2):not(:nth-child(2))) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .grid.g-3:has(> .card:last-child:nth-child(3n + 2):not(:nth-child(2))) > .card,
+  .grid.g-3:has(> .card-group:last-child:nth-child(3n + 2):not(:nth-child(2))) > .card-group,
+  .grid.g-3:has(> .cil-info-card:last-child:nth-child(3n + 2):not(:nth-child(2))) > .cil-info-card,
+  .grid.g-3.cil-info-cards-grid:has(> *:last-child:nth-child(3n + 2):not(:nth-child(2))) > * {
+    grid-column: span 2;
+  }
+  .grid.g-3:has(> .card:last-child:nth-child(3n + 2):not(:nth-child(2))) > .card:nth-last-child(-n + 2),
+  .grid.g-3:has(> .card-group:last-child:nth-child(3n + 2):not(:nth-child(2))) > .card-group:nth-last-child(-n + 2),
+  .grid.g-3:has(> .cil-info-card:last-child:nth-child(3n + 2):not(:nth-child(2))) > .cil-info-card:nth-last-child(-n + 2),
+  .grid.g-3.cil-info-cards-grid:has(> *:last-child:nth-child(3n + 2):not(:nth-child(2))) > *:nth-last-child(-n + 2) {
+    grid-column: span 3;
+  }
+}
+
+@media (min-width: 681px) {
+  /* One leftover in a 2-col card grid -> centre in last row */
+  .grid.g-2 > .card:last-child:nth-child(odd):not(:first-child),
+  .grid.g-2 > .card-group:last-child:nth-child(odd):not(:first-child),
+  .grid.g-2 > .cil-info-card:last-child:nth-child(odd):not(:first-child),
+  .grid.g-2.cil-info-cards-grid > .card:last-child:nth-child(odd):not(:first-child) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-inline: auto;
+    width: calc((100% - clamp(20px, 2.6vw, 40px)) / 2);
+  }
+}
+
+@media (max-width: 900px) and (min-width: 681px) {
+  /* One leftover in a 3-col grid that collapsed to 2 cols on tablet -> centre in last row */
+  .grid.g-3 > .card:last-child:nth-child(odd):not(:first-child),
+  .grid.g-3 > .card-group:last-child:nth-child(odd):not(:first-child),
+  .grid.g-3 > .cil-info-card:last-child:nth-child(odd):not(:first-child),
+  .grid.g-3.cil-info-cards-grid > .card:last-child:nth-child(odd):not(:first-child) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-inline: auto;
+    width: calc((100% - clamp(20px, 2.6vw, 40px)) / 2);
+  }
+}
+
+/* --------------------------------------------------------------- blog -- */
+/*
+ * Blog landing — alternating image/copy rows. Scoped to .cil-blog-* so
+ * global .card / .split consumers are unaffected.
+ */
+.cil-blog-feed__list {
+  display: grid;
+  gap: clamp(48px, 6vw, 96px);
+}
+.cil-blog-row {
+  margin: 0;
+  align-items: center;
+}
+.cil-blog-row__media {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--paper-2);
+}
+.cil-blog-row__media a {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+}
+.cil-blog-row__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cil-blog-row__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: linear-gradient(145deg, var(--paper-2), var(--blue-soft));
+}
+.cil-blog-row__body {
+  min-width: 0;
+}
+.cil-blog-row__body .eyebrow {
+  color: var(--blue);
+}
+.cil-blog-row__body .display a {
+  color: inherit;
+  text-decoration: none;
+}
+.cil-blog-row__body .display a:hover {
+  color: var(--blue-deep);
+}
+.cil-blog-row__excerpt {
+  margin: 18px 0 0;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 42rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .cil-blog-row,
+  .cil-blog-row.cil-blog-row--swap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  /* Always Image → Title/Description → Read more on small screens. */
+  .cil-blog-row__media {
+    order: -1;
+  }
+}
+
+/* Single article featured image inside Gutenberg body */
+.cil-blog-article-figure {
+  margin: 0 0 28px;
+}
+.cil-blog-article-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 2px;
+}
+
+@media print {
+  .cta-band { display: none !important; }
+}
+
+/* ------------------------------------------------ homepage content scan -- */
+/* Short lede above card grids (medical reasons / methods). */
+.cil-section-lede {
+  max-width: 46rem;
+  margin-bottom: clamp(22px, 2.4vw, 32px);
+}
+.cil-section-lede p:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * Homepage, babies, children, adults and religious pages: section heading +
+ * supporting paragraph above a card grid are left-aligned (client feedback).
+ * Checklist cards inside these sections stay centred on the page.
+ */
+body:is(.cil-home, .page-babies, .page-children, .page-adults, .page-religious) .wp-block-cil-section.section > .wrap > .cil-section-lede {
+  margin-top: 1.15em;
+}
+body:is(.cil-home, .page-babies, .page-children, .page-adults, .page-religious) .wp-block-cil-section.section > .wrap:has(> .cil-section-lede) > .wp-block-group:has(> .section-head) .section-head,
+body:is(.page-babies, .page-children, .page-adults, .page-religious) .wp-block-cil-section.section > .wrap:has(> .cil-section-lede) > .section-head {
+  margin-bottom: 0;
+}
+/* WordPress centres constrained-layout children with !important; anchor these headings left. */
+body:is(.cil-home, .page-babies, .page-children, .page-adults, .page-religious) .wp-block-cil-section.section > .wrap:has(> .cil-section-lede) > .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull):not(.cil-checklist)) {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* Recircumcision page: photographs section, left-aligned (client feedback) */
+body.page-re-circumcision #photographs .section-head,
+body.page-re-circumcision .photographs-section .section-head,
+body.page-re-circumcision #photographs .wp-block-heading,
+body.page-re-circumcision .photographs-section .wp-block-heading,
+body.page-re-circumcision #photographs h2,
+body.page-re-circumcision .photographs-section h2 {
+  max-width: 48rem;
+  width: 100%;
+  margin-inline: 0 auto;
+  text-align: left;
+  margin-bottom: 24px;
+}
+body.page-re-circumcision #photographs .section-head .eyebrow,
+body.page-re-circumcision .photographs-section .section-head .eyebrow {
+  display: block;
+  margin-bottom: 8px;
+}
+body.page-re-circumcision #photographs .body-text,
+body.page-re-circumcision .photographs-section .body-text {
+  max-width: 48rem;
+  margin-inline: 0 auto;
+}
+
+/* Info cards (cil/info-cards): equal-height flex cards; pin Learn more / CTAs to bottom. */
+.grid > .card.cil-info-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+}
+.cil-info-card > .cil-info-card__body.body-text,
+.cil-info-card > .body-text.cil-info-card__body {
+  color: var(--muted);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+.cil-info-card > p.cil-info-card__body {
+  flex: 1 1 auto;
+  margin: 0;
+}
+.cil-info-card .body-text p {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--muted);
+  margin: 0;
+}
+.cil-info-card .body-text p + p {
+  margin-top: 0.85em;
+}
+.cil-info-card .body-text a {
+  font-weight: 600;
+  color: var(--blue-deep);
+  text-decoration: none;
+}
+.cil-info-card .body-text a:hover {
+  color: var(--blue);
+}
+/* Anchor "Learn more … →" paragraphs to the bottom of the card body. */
+.cil-info-card .body-text > p:not(:has(> a)) + p:has(> a) {
+  margin-top: auto;
+  padding-top: 1.1em;
+}
+.cil-info-card .body-text > p:has(> a) + p:has(> a) {
+  margin-top: 0.35em;
+  padding-top: 0;
+}
+/* Button CTAs (clinic cards etc.) also sit at the bottom when present. */
+.cil-info-card > .cil-info-card__action.btn-row {
+  margin-top: auto;
+  padding-top: 1.1em;
+}
+
+/* ------------------------------------------------ card & grid vertical spacing -- */
+/*
+ * Ensure clean one line spacing above and below card grids, steps, and cards
+ * when adjacent to body text or other elements.
+ */
+.cil-info-cards-grid,
+.grid:has(> .card.cil-info-card),
+.wrap > .grid:has(> .card) {
+  margin-top: clamp(28px, 3vw, 40px);
+  margin-bottom: clamp(28px, 3vw, 40px);
+}
+.section-head + .cil-info-cards-grid,
+.section-head + .grid:has(> .card.cil-info-card),
+.cil-section-lede + .cil-info-cards-grid,
+.cil-section-lede + .grid:has(> .card.cil-info-card) {
+  /* Section-head and section-ledes already have their own bottom margin */
+  margin-top: 0;
+}
+.cil-info-cards-grid:first-child,
+.grid:has(> .card):first-child {
+  margin-top: 0;
+}
+.cil-info-cards-grid:last-child,
+.grid:has(> .card):last-child {
+  margin-bottom: 0;
+}
+
+/* Process steps spacing when adjacent to content */
+.body-text + .steps,
+.wp-block-group + .steps {
+  margin-top: clamp(28px, 3vw, 40px);
+}
+.steps + .body-text,
+.steps + .wp-block-group {
+  margin-top: clamp(28px, 3vw, 40px);
+}
+
+/* When body text directly follows a list, checklist, or grid */
+.body-text ul + p,
+.body-text ol + p,
+.body-text .cil-checklist + p {
+  margin-top: clamp(22px, 2.5vw, 32px);
+}
+
+/* --------------------------------------------------- clinical cycle flow -- */
+.cil-cycle-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin: clamp(24px, 2.6vw, 36px) 0;
+  counter-reset: cycle-step;
+}
+.cil-cycle-flow li {
+  counter-increment: cycle-step;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: clamp(18px, 2vw, 24px) 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), border-color 0.22s var(--ease);
+}
+.cil-cycle-flow li:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.cil-cycle-flow li::before {
+  content: counter(cycle-step);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.cil-cycle-flow .cycle-title {
+  font-family: var(--sans);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+@media (min-width: 901px) {
+  .cil-cycle-flow li:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -11px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    color: var(--blue);
+    font-weight: 700;
+    z-index: 2;
+    background: var(--card);
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+}
+@media (max-width: 900px) and (min-width: 641px) {
+  .cil-cycle-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+@media (max-width: 640px) {
+  .cil-cycle-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .cil-cycle-flow li {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+  .cil-cycle-flow li::before {
+    margin-bottom: 0;
+  }
+}
+
+/* ------------------------------------------------ homepage reveal polish -- */
+/*
+ * Reuses the global [data-reveal] / .is-in system (theme.js + base.css).
+ * Scoped to body.cil-home so other pages stay unchanged.
+ * Transform/opacity only — does not affect card flex Learn-more alignment.
+ */
+body.cil-home [data-reveal],
+body.page-babies [data-reveal],
+body.page-children [data-reveal],
+body.page-adults [data-reveal],
+body.page-religious [data-reveal],
+body.page-phimosis [data-reveal],
+body.page-balanitis [data-reveal],
+body.page-bxo [data-reveal],
+body.page-paraphimosis [data-reveal],
+body.page-frenuloplasty [data-reveal],
+body.page-testimonials [data-reveal],
+body.page-prices [data-reveal],
+body.page-courses [data-reveal],
+body.page-luton-circumcision-clinic [data-reveal],
+body.page-southampton-circumcision-clinic [data-reveal],
+body.page-birmingham-circumcision-clinic [data-reveal] {
+  transform: translateY(24px);
+  transition-duration: 0.55s;
+}
+body.cil-home [data-reveal].is-in,
+body.page-babies [data-reveal].is-in,
+body.page-children [data-reveal].is-in,
+body.page-adults [data-reveal].is-in,
+body.page-religious [data-reveal].is-in,
+body.page-phimosis [data-reveal].is-in,
+body.page-balanitis [data-reveal].is-in,
+body.page-bxo [data-reveal].is-in,
+body.page-paraphimosis [data-reveal].is-in,
+body.page-frenuloplasty [data-reveal].is-in,
+body.page-testimonials [data-reveal].is-in,
+body.page-prices [data-reveal].is-in,
+body.page-courses [data-reveal].is-in,
+body.page-luton-circumcision-clinic [data-reveal].is-in,
+body.page-southampton-circumcision-clinic [data-reveal].is-in,
+body.page-birmingham-circumcision-clinic [data-reveal].is-in {
+  transform: none;
+}
+@media (max-width: 680px) {
+  body.cil-home [data-reveal],
+  body.page-babies [data-reveal],
+  body.page-children [data-reveal],
+  body.page-adults [data-reveal],
+  body.page-religious [data-reveal],
+  body.page-phimosis [data-reveal],
+  body.page-balanitis [data-reveal],
+  body.page-bxo [data-reveal],
+  body.page-paraphimosis [data-reveal],
+  body.page-frenuloplasty [data-reveal],
+  body.page-testimonials [data-reveal],
+  body.page-prices [data-reveal],
+  body.page-courses [data-reveal],
+  body.page-luton-circumcision-clinic [data-reveal],
+  body.page-southampton-circumcision-clinic [data-reveal],
+  body.page-birmingham-circumcision-clinic [data-reveal] {
+    transform: translateY(14px);
+    transition-duration: 0.45s;
+  }
+  body.cil-home [data-reveal].is-in,
+  body.page-babies [data-reveal].is-in,
+  body.page-children [data-reveal].is-in,
+  body.page-adults [data-reveal].is-in,
+  body.page-religious [data-reveal].is-in,
+  body.page-phimosis [data-reveal].is-in,
+  body.page-balanitis [data-reveal].is-in,
+  body.page-bxo [data-reveal].is-in,
+  body.page-paraphimosis [data-reveal].is-in,
+  body.page-frenuloplasty [data-reveal].is-in,
+  body.page-testimonials [data-reveal].is-in,
+  body.page-prices [data-reveal].is-in,
+  body.page-courses [data-reveal].is-in,
+  body.page-luton-circumcision-clinic [data-reveal].is-in,
+  body.page-southampton-circumcision-clinic [data-reveal].is-in,
+  body.page-birmingham-circumcision-clinic [data-reveal].is-in {
+    transform: none;
+  }
+}
+/* Keep reduced-motion / no-js behaviour from base.css (already !important). */
+
+/* Circumcision Diary: long-form text left-aligned with the page heading, at a readable width. */
+.cil-diary,
+body.page-circumcision-diary .callout {
+  max-width: 720px;
+}
+
+/* Testimonials: full-length written feedback reads at body size, not pull-quote size. */
+body.page-testimonials .cil-quotes-grid .quote blockquote {
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+/* Course and location pages: in-page "Enquire" links land below the sticky header. */
+body.page-courses #enquire,
+body.page-courses #courses,
+body.page-luton-circumcision-clinic #enquire,
+body.page-luton-circumcision-clinic #luton,
+body.page-southampton-circumcision-clinic #enquire,
+body.page-southampton-circumcision-clinic #southampton,
+body.page-birmingham-circumcision-clinic #enquire,
+body.page-birmingham-circumcision-clinic #birmingham {
+  scroll-margin-top: 150px;
+}
+
+/* Frenuloplasty, Course and location pages: paired text columns start level so their headings line up. */
+body.page-frenuloplasty .split,
+body.page-courses .split,
+body.page-luton-circumcision-clinic .split,
+body.page-southampton-circumcision-clinic .split,
+body.page-birmingham-circumcision-clinic .split {
+  align-items: start;
+}
+
+/* ------------------------------------------------ interactive hovers -- */
+/*
+ * Must beat [data-reveal].is-in { transform: none } (same stylesheet / base.css).
+ * Lift only after .is-in so reveal animation is not fighting hover.
+ */
+.grid > .card.cil-info-card,
+.quote,
+.card-group {
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+.grid > .card.cil-info-card[data-reveal].is-in,
+.quote[data-reveal].is-in,
+a.card-group[data-reveal].is-in,
+.card-group[data-reveal].is-in {
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+.figure img {
+  transition: transform 0.35s var(--ease);
+}
+.cil-info-card .body-text > p:has(> a) > a {
+  display: inline-block;
+  transition: color 0.28s var(--ease), transform 0.28s var(--ease);
+}
+
+/* Prefer hover-capable pointers; still apply when hover is available. */
+@media (hover: hover) {
+  body.cil-home .grid > .card.cil-info-card[data-reveal].is-in:hover,
+  .grid > .card.cil-info-card[data-reveal].is-in:hover,
+  .grid > .card.cil-info-card.is-in:hover,
+  body.cil-home .quote[data-reveal].is-in:hover,
+  .quote[data-reveal].is-in:hover,
+  .quote.is-in:hover,
+  body.cil-home a.card-group[data-reveal].is-in:hover,
+  a.card-group[data-reveal].is-in:hover,
+  .card-group[data-reveal].is-in:hover,
+  a.card-group.is-in:hover,
+  .card-group.is-in:hover {
+    transform: translateY(-4px) !important;
+    border-color: var(--blue);
+    box-shadow: 0 24px 50px -30px rgba(22, 32, 46, 0.4);
+  }
+
+  .figure:hover img {
+    transform: scale(1.03);
+  }
+
+  .cil-info-card .body-text > p:has(> a) > a:hover {
+    transform: translateX(3px);
+  }
+
+  a.card-group[data-reveal].is-in:hover .go::after,
+  .card-group[data-reveal].is-in:hover .go::after,
+  a.card-group.is-in:hover .go::after,
+  .card-group.is-in:hover .go::after {
+    transform: translateX(5px);
+  }
+
+  .body-text ul.cil-checklist > li:hover,
+  .body-text .wp-block-list.cil-checklist > li:hover,
+  .cil-checklist > li:hover,
+  ul.cil-checklist > li:hover,
+  .wp-block-list.cil-checklist > li:hover {
+    border-color: var(--blue);
+    box-shadow: 0 10px 24px -14px rgba(22, 32, 46, 0.22);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid > .card.cil-info-card,
+  .grid > .card.cil-info-card[data-reveal].is-in,
+  .quote,
+  .quote[data-reveal].is-in,
+  .card-group,
+  .card-group[data-reveal].is-in,
+  a.card-group[data-reveal].is-in,
+  .figure img,
+  .cil-info-card .body-text > p:has(> a) > a {
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease) !important;
+  }
+  body.cil-home .grid > .card.cil-info-card[data-reveal].is-in:hover,
+  .grid > .card.cil-info-card[data-reveal].is-in:hover,
+  .grid > .card.cil-info-card.is-in:hover,
+  body.cil-home .quote[data-reveal].is-in:hover,
+  .quote[data-reveal].is-in:hover,
+  .quote.is-in:hover,
+  body.cil-home a.card-group[data-reveal].is-in:hover,
+  a.card-group[data-reveal].is-in:hover,
+  .card-group[data-reveal].is-in:hover,
+  a.card-group.is-in:hover,
+  .card-group.is-in:hover,
+  .figure:hover img,
+  .cil-info-card .body-text > p:has(> a) > a:hover,
+  a.card-group:hover .go::after,
+  .card-group:hover .go::after {
+    transform: none !important;
+  }
+  @media (hover: hover) {
+    .grid > .card.cil-info-card.is-in:hover,
+    .quote.is-in:hover,
+    a.card-group.is-in:hover,
+    .card-group.is-in:hover {
+      border-color: var(--blue);
+      box-shadow: 0 20px 44px -34px rgba(22, 32, 46, 0.34);
+    }
+  }
+}
+
+/* Clinic introduction checklist — scannable 2-up grid, not a wall of bullets.
+   Higher specificity than `.body-text ul li` so padding/markers are not overridden. */
+.body-text ul.cil-checklist,
+.body-text .wp-block-list.cil-checklist,
+.cil-checklist,
+ul.cil-checklist,
+.wp-block-list.cil-checklist {
+  list-style: none;
+  margin: clamp(22px, 2.6vw, 34px) 0 clamp(22px, 2.6vw, 34px);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+}
+.body-text ul.cil-checklist > li,
+.body-text .wp-block-list.cil-checklist > li,
+.cil-checklist > li,
+ul.cil-checklist > li,
+.wp-block-list.cil-checklist > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 16px;
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  min-width: 0;
+  word-break: normal;
+  overflow-wrap: break-word;
+  list-style: none;
+  padding-left: 16px;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.body-text ul.cil-checklist > li::marker,
+.body-text .wp-block-list.cil-checklist > li::marker,
+.cil-checklist > li::marker,
+ul.cil-checklist > li::marker,
+.wp-block-list.cil-checklist > li::marker {
+  content: "";
+  font-size: 0;
+}
+.body-text ul.cil-checklist > li::before,
+.body-text .wp-block-list.cil-checklist > li::before,
+.cil-checklist > li::before,
+ul.cil-checklist > li::before,
+.wp-block-list.cil-checklist > li::before {
+  content: "";
+  position: static;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.45em;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent);
+}
+
+@media (max-width: 680px) {
+  .body-text ul.cil-checklist,
+  .body-text .wp-block-list.cil-checklist,
+  .cil-checklist,
+  ul.cil-checklist,
+  .wp-block-list.cil-checklist {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+ * All pages except the homepage: tighter vertical spacing between content
+ * sections (client request). Standard sections only; the smaller .section-sm
+ * spacing is unchanged.
+ */
+body:not(.cil-home) .entry-content .section {
+  padding-block: clamp(36px, 4vw, 56px);
+}
+
+/*
+ * Religious page, faiths & traditions: the Sunnah card runs full width as a
+ * horizontal box with the other two cards side by side below it. Surgical
+ * methods: two wider cards, then the Adults card full width (client request).
+ */
+@media (min-width: 681px) {
+  body.page-religious #faiths-and-traditions .grid.g-3,
+  body.page-religious #methods-and-anaesthetic > .wrap > .grid.g-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  body.page-religious #faiths-and-traditions .grid.g-3 > :first-child,
+  body.page-religious #methods-and-anaesthetic > .wrap > .grid.g-3 > :last-child {
+    grid-column: 1 / -1 !important;
+  }
+}
+@media (min-width: 901px) {
+  /* Keep a readable line length across the wide card. */
+  body.page-religious #faiths-and-traditions .grid.g-3 > :first-child .cil-info-card__body {
+    display: block;
+    columns: 2;
+    column-gap: clamp(32px, 4vw, 56px);
+  }
+  body.page-religious #faiths-and-traditions .grid.g-3 > :first-child .cil-info-card__body p {
+    break-inside: avoid;
+  }
+}
+
+/*
+ * Frenuloplasty page: "What is frenuloplasty?" and "What happens during
+ * frenuloplasty" stack one below the other, like the questions that follow
+ * (client request).
+ */
+body.page-frenuloplasty #what-is-frenuloplasty .split {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(36px, 4vw, 56px);
+}
+
+/*
+ * Buried penis page, medical review & references: stacked and left-aligned
+ * instead of a two-column split with a vertically centred author card
+ * (client request). References become three even cards with the source name
+ * above its description.
+ */
+body.page-buried-penis #authorship-and-references .split {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(28px, 3vw, 40px);
+}
+body.page-buried-penis #authorship-and-references .callout {
+  margin: 0 !important;
+  max-width: 760px;
+}
+body.page-buried-penis #authorship-and-references .body-text > p {
+  max-width: 760px;
+}
+body.page-buried-penis #authorship-and-references ul.cil-checklist {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 0;
+}
+body.page-buried-penis #authorship-and-references ul.cil-checklist > li {
+  display: block;
+  padding: 18px 20px 18px 40px;
+}
+body.page-buried-penis #authorship-and-references ul.cil-checklist > li::before {
+  position: absolute;
+  left: 18px;
+  top: 25px;
+  margin-top: 0;
+}
+body.page-buried-penis #authorship-and-references ul.cil-checklist > li > strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+@media (max-width: 900px) {
+  body.page-buried-penis #authorship-and-references ul.cil-checklist {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+ * Balanitis page: two-up info cards become full-width horizontal boxes, one
+ * per row, so no card is stretched to its neighbour's height (client request).
+ */
+@media (min-width: 681px) {
+  body.page-balanitis .grid.g-2.cil-info-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+@media (min-width: 901px) {
+  /* Keep a readable line length across the wide cards. */
+  body.page-balanitis .grid.g-2.cil-info-cards-grid > .cil-info-card > .cil-info-card__body:has(> :nth-child(2)) {
+    display: block;
+    columns: 2;
+    column-gap: clamp(32px, 4vw, 56px);
+  }
+  body.page-balanitis .grid.g-2.cil-info-cards-grid > .cil-info-card > .cil-info-card__body :is(p, li) {
+    break-inside: avoid;
+  }
+}
+
+/*
+ * Babies, children, adults, religious, re-circumcision: an odd leftover card
+ * stays in the left column, not centred (client request). A 3-col grid with
+ * two leftovers keeps the full-row pair from the rule above.
+ */
+@media (min-width: 681px) {
+  body:is(.page-babies, .page-children, .page-adults, .page-religious, .page-re-circumcision) .grid.g-2 > * {
+    grid-column: auto !important;
+  }
+  body:is(.page-babies, .page-children, .page-adults, .page-religious, .page-re-circumcision) :is(.grid.g-2, .grid.g-3, .cil-quotes-grid) > :last-child {
+    justify-self: stretch !important;
+    margin-inline: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+@media (min-width: 681px) and (max-width: 900px) {
+  body:is(.page-babies, .page-children, .page-adults, .page-religious, .page-re-circumcision) :is(.grid.g-3, .cil-quotes-grid) > * {
+    grid-column: auto !important;
+  }
+}
+@media (min-width: 901px) {
+  body:is(.page-babies, .page-children, .page-adults, .page-religious, .page-re-circumcision) :is(.grid.g-3, .cil-quotes-grid.g-3) > :last-child:nth-child(3n + 1) {
+    grid-column: auto !important;
+  }
+}
+
+/*
+ * Remaining pages (all except the homepage): an odd leftover card stays in
+ * the left column instead of being centred (client request). Only the odd
+ * last card is touched; other grid placement is unchanged.
+ */
+@media (min-width: 681px) {
+  body:not(.cil-home) .grid.g-2 > :last-child:nth-child(odd):not(:first-child) {
+    grid-column: auto !important;
+  }
+  body:not(.cil-home) .grid.g-2 > :last-child:nth-child(odd):not(:first-child),
+  body:not(.cil-home) :is(.grid.g-3, .cil-quotes-grid) > :last-child:not(:first-child) {
+    justify-self: stretch !important;
+    margin-inline: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+@media (min-width: 681px) and (max-width: 900px) {
+  body:not(.cil-home) :is(.grid.g-3, .cil-quotes-grid) > :last-child:nth-child(odd):not(:first-child) {
+    grid-column: auto !important;
+  }
+}
+@media (min-width: 901px) {
+  body:not(.cil-home) :is(.grid.g-3, .cil-quotes-grid.g-3) > :last-child:nth-child(3n + 1):not(:first-child) {
+    grid-column: auto !important;
+  }
+}
+
+/* Card body: no extra top margin when it starts with a list (heading-to-text gap matches other cards). */
+.cil-info-card__body > :first-child {
+  margin-top: 0;
+}
+
+/*
+ * Testimonials page (client feedback): navigation banners, review-platform
+ * buttons and video category headings. Page-scoped; shared blocks unchanged.
+ */
+body.page-testimonials :is(#selected-testimonials, #video-testimonials, #independent-reviews) {
+  scroll-margin-top: calc(var(--header-h) + 8px);
+}
+body.page-testimonials #testimonial-types .cil-info-cards-grid {
+  margin-top: clamp(28px, 3vw, 40px);
+}
+body.page-testimonials #testimonial-types .cil-info-card {
+  position: relative;
+  padding-top: clamp(26px, 2.6vw, 34px);
+  border-top: 4px solid var(--blue);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+body.page-testimonials #testimonial-types .cil-info-card::before {
+  content: "";
+  position: absolute;
+  top: clamp(22px, 2.4vw, 30px);
+  right: clamp(22px, 2.4vw, 30px);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blue) 10%, var(--card)) center / 22px 22px no-repeat;
+}
+body.page-testimonials #testimonial-types .cil-info-card:nth-child(1)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d5fa0' d='M4 18v-5.5C4 8.4 6.2 5.6 10 5l.6 1.9C8.4 7.6 7.4 9 7.3 11H10v7H4zm10 0v-5.5c0-4.1 2.2-6.9 6-7.5l.6 1.9c-2.2.7-3.2 2.1-3.3 4.1H20v7h-6z'/%3E%3C/svg%3E");
+}
+body.page-testimonials #testimonial-types .cil-info-card:nth-child(2)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231d5fa0' d='M8 5.5v13l11-6.5z'/%3E%3C/svg%3E");
+}
+body.page-testimonials #testimonial-types .cil-info-card :is(.eyebrow, h2) {
+  padding-right: 56px;
+}
+body.page-testimonials #testimonial-types .cil-info-card:has(a:focus-visible),
+body.page-testimonials #testimonial-types .cil-info-card:hover {
+  box-shadow: 0 14px 34px -22px rgba(22, 32, 46, 0.45);
+}
+@media (prefers-reduced-motion: no-preference) {
+  body.page-testimonials #testimonial-types .cil-info-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Review platforms: branded, equal-width link buttons. */
+body.page-testimonials .cil-review-platform-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: clamp(24px, 3vw, 34px);
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button {
+  margin: 0;
+  width: auto;
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 18px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  text-decoration: none;
+  box-shadow: none;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link::before {
+  content: "";
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link::after {
+  content: "";
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%2355637a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M6 3H3v10h10v-3M9 2h5v5M14 2 7 9'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+body.page-testimonials .cil-platform-google .wp-block-button__link::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E");
+}
+body.page-testimonials .cil-platform-trustpilot .wp-block-button__link::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300B67A' d='M12 1.5l3.09 7.36 7.91.6-6.03 5.15 1.86 7.72L12 18.16 5.17 22.33l1.86-7.72L1 9.46l7.91-.6z'/%3E%3C/svg%3E");
+}
+body.page-testimonials .cil-platform-yell .wp-block-button__link::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23FFD100'/%3E%3Ctext x='12' y='17.5' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='15' fill='%23111111'%3EY%3C/text%3E%3C/svg%3E");
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link:hover {
+  border-color: var(--blue);
+  box-shadow: 0 10px 26px -20px rgba(22, 32, 46, 0.5);
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link:active {
+  box-shadow: none;
+}
+body.page-testimonials .cil-review-platform-buttons .wp-block-button .wp-block-button__link:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+body.page-testimonials .cil-review-platform-note {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  body.page-testimonials .cil-review-platform-buttons {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+  }
+}
+
+/* Video categories: Baby / Children / Adult headings above each grid. */
+body.page-testimonials .cil-video-category {
+  margin-top: clamp(36px, 4vw, 52px);
+  padding-top: clamp(20px, 2.4vw, 28px);
+  border-top: 1px solid var(--line);
+  scroll-margin-top: calc(var(--header-h) + 8px);
+}
+body.page-testimonials .cil-video-category + .cil-video-cards {
+  margin-top: 18px;
+}
+
+/* Video testimonials page: the gallery uses the standard content width (it sits
+   directly in the page content, which otherwise narrows it to 780px). */
+body.page-video-testimonials .entry-content > .cil-video-cards {
+  max-width: var(--maxw);
+  padding-inline: var(--gap);
+}
+
+/* Blog articles (single posts): body text starts at the same left edge as the
+   title instead of a centred narrow column; line length stays readable. */
+body.single-post .entry-content > .section-sm > .wrap-narrow {
+  max-width: var(--maxw);
+}
+body.single-post .entry-content > .section-sm > .wrap-narrow > * {
+  max-width: 760px;
+  margin-left: 0;
+  margin-right: auto;
+}
+body.single-post .entry-content > .section-sm > .wrap-narrow .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* Ghost buttons inside .body-text: dark label on the light outline (was white on white). */
+.body-text a.btn.btn-ghost,
+.body-text a.btn.btn-ghost:focus {
+  color: var(--ink);
+}
+.body-text a.btn.btn-ghost:hover {
+  color: var(--blue-deep);
+}
+
+/* Embedded map (cil/map-embed). */
+.cil-map {
+  margin: 0;
+}
+.cil-map__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.cil-map__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.cil-map__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+@media (max-width: 680px) {
+  .cil-map__frame { aspect-ratio: 1 / 1; }
+}
+
+/* Contact page: "Ask us to call you" card starts at the content left edge (was centred). */
+body.page-contact .entry-content > .wp-block-cil-section > .wrap-narrow:has(> .card form) {
+  max-width: var(--maxw);
+}
+body.page-contact .entry-content > .wp-block-cil-section > .wrap-narrow:has(> .card form) > .card {
+  max-width: 720px;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* About page: intro video sits closer to the page intro, with equal space
+   above it and between it and the text below (client request). */
+body.page-about #practitioners {
+  padding-top: 0;
+}
+body.page-about #practitioners .cil-video-list {
+  margin-top: 0;
+}
+body.page-about #practitioners .cil-video-list + * {
+  margin-top: clamp(30px, 3.5vw, 56px); /* same as the page intro's bottom padding */
+}
+
+/* Babies page: headings and text in these sections start at the content left
+   edge like the rest of the page; the checklist card grid keeps its centred
+   tabular layout (client request). */
+body.page-babies :is(#preparation, #safety-and-suitability, #when-to-contact) > .wrap > .is-layout-constrained > :where(:not(.cil-checklist):not(.alignleft):not(.alignright):not(.alignfull)) {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
